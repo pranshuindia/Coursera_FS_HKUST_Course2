@@ -14,6 +14,7 @@ import {Link} from "react-router-dom";
 import {Control, Errors, LocalForm} from "react-redux-form";
 import React,{Component} from 'react';
 import {Loading} from "./LoadingComponent";
+import { baseUrl } from '../shared/baseUrl';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -35,7 +36,7 @@ class Comment extends Component {
     handleSubmit(values) {
         console.log("Current state is : " + JSON.stringify(values));
         alert("Current state is : " + JSON.stringify(values));
-        this.props.addComment(this.props.dishId,values.rating, values.yourname, values.message)
+        this.props.postComment(this.props.dishId,values.rating, values.author, values.message)
         this.toggleModal();
     }
 
@@ -73,9 +74,9 @@ class Comment extends Component {
                                 </Col>
                             </Row>
                             <Row className="form-group">
-                                <Label htmlFor="yourname" xs={12}>Your Name</Label>
+                                <Label htmlFor="author" xs={12}>Your Name</Label>
                                 <Col xs={12}>
-                                    <Control.text model=".yourname" id="yourname" name="yourname"
+                                    <Control.text model=".author" id="author" name="author"
                                                   placeholder="Your Name"
                                                   className="form-control"
                                                   validators={{
@@ -84,7 +85,7 @@ class Comment extends Component {
                                     />
                                     <Errors
                                         className="text-danger"
-                                        model=".yourname"
+                                        model=".author"
                                         show="touched"
                                         messages={{
                                             required: 'Required',
@@ -121,7 +122,7 @@ class Comment extends Component {
 function RenderDish({dish}) {
     return (<div className="col-12 col-md-5 m-1">
             <Card>
-                <CardImg width="100%" src={dish.image} alt={dish.name}/>
+                <CardImg top src={baseUrl + dish.image} alt={dish.name} />
                 <CardBody>
                     <CardTitle>{dish.name}</CardTitle>
                     <CardText>{dish.description}</CardText>
@@ -131,7 +132,7 @@ function RenderDish({dish}) {
     )
 }
 
-function RenderComment({comments, addComment, dishId}) {
+function RenderComment({comments, postComment, dishId}) {
     if (comments != null) {
         const commentsList = comments.map((comment) => {
             return (
@@ -149,7 +150,7 @@ function RenderComment({comments, addComment, dishId}) {
                 <ul className={"list-unstyled"}>
                     {commentsList}
                 </ul>
-                <Comment dishId={dishId} addComment={addComment}></Comment>
+                <Comment dishId={dishId} postComment={postComment}></Comment>
             </div>
         )
     } else {
@@ -200,7 +201,7 @@ const Dishdetail = (props) => {
                     <div className={"col-12 col-md-5 m-1"}>
                         <h4>Comments</h4>
                         <RenderComment comments={props.comments}
-                        addComment={props.addComment}
+                        postComment={props.postComment}
                         dishId={props.dish.id}/>
                     </div>
                 </div>
