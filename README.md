@@ -1,12 +1,17 @@
-# Getting Started with Create React App
+## Setup
+Run `npm install` or `yarn install`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Then run the json-server to serve data for the web app using command 
+
+`json-server --watch db.json -p 3001 -d 2000`
+
+The delay (2000ms/2s) has been added to reflect the delay in a real Database/Endpoint Call. 
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `yarn start`
+### `npm start`/`yarn start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
